@@ -1,5 +1,6 @@
 # Request library allows to send HTTP request
-import requests
+# urllib is used to fetch data across world wide web
+import requests, urllib
 
 # App access token is imported from key file. it can also be created here!
 from keys import APP_ACCESS_TOKEN
@@ -79,18 +80,20 @@ def get_user_info(insta_username):
     else:
         print 'Status code other than 200 received!'
 
-# let us define a function to get id of self id's recent post
+# let us define a function to get id of self id's recent post and download the image
 def get_own_post():
     request_url = (BASE_URL + 'users/self/media/recent/?access_token=%s') % (APP_ACCESS_TOKEN)
-    print 'GET request url : %s' % (request_url)
     own_media = requests.get(request_url).json()
     if own_media['meta']['code'] == 200:
         if len(own_media['data']):
-            return own_media['data'][0]['id']
+            image_name = own_media['data'][0]['id'] + '.jpeg'
+            image_url = own_media['data'][0]['images']['standard_resolution']['url']
+            urllib.urlretrieve(image_url, image_name)
+            cprint ('Your image has been downloaded!', 'blue')
         else:
-            print "post do not exist"
+            print 'Post does not exist!'
     else:
-        print"status code other than 200 received!!"
+        print 'Status code other than 200 received!'
 
 # let us define a function to get user recent post id..
 def get_user_post(insta_username):
@@ -100,29 +103,35 @@ def get_user_post(insta_username):
         exit()
 
     request_url = (BASE_URL + 'users/%s/media/recent/?access_token=%s' % (user_id, APP_ACCESS_TOKEN))
-    print "get request url: %s" % request_url
     user_media = requests.get(request_url).json()
     if user_media['meta']['code'] == 200:
         if len(user_media['data']):
-            print user_media['data'][0]['id']
+            # downloaded image is saved in a variable image_name
+            image_name = user_media['data'][0]['id'] + '.jpeg'
+            # url of the image is provided which is to be downloaded
+            image_url = user_media['data'][0]['images']['standard_resolution']['url']
+            # urllib is used to fetch data across world wide web .
+            # urllib library is installed using command pip install urllib
+            urllib.urlretrieve(image_url, image_name)
+            cprint ('user image has been downloaded!', 'blue')
         else:
-            print "There is no recent post!"
+            print 'Post does not exist!'
     else:
-        print "Status code other than 200 received!"
-        return None
+        print 'Status code other than 200 received!'
+
 # here we have defined the start bot function which will start or bot application
 def start_bot():
 
-    # while loop in python is used to repeatedly execute a set a target statements as listed below
+    # while loop in  python is used to repeatedly execute a set a target statements as listed below
     while True:
         print '\n'
         # C print is used for colored printing of a string
-        cprint ('Hey! Welcome to instaBot!', 'blue')
-        cprint ('Here are your menu options:', 'red')
+        cprint ('Hello! Welcome to instaBot!', 'blue')
+        cprint ('you have following options :', 'red')
         print "a.Get your own details\n"
         print "b.Get details of a user by username\n"
         print "c.get your own post\n"
-        print "d.get user post details\n"
+        print "d.get users recent post \n"
         choice=raw_input("Enter you choice: ")
         if choice == "a":
             self_info()
