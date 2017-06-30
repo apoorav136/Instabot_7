@@ -276,6 +276,33 @@ def delete_negative_comment(insta_username):
         print 'Status code other than 200 received!'
 
 
+# let us create a function to fetch users post in a creative way asking the criteria from the user through the console
+# choose the post in a creative way
+# this function will aloow the user to enter a username and he post no which user want to access or fetch..
+def get_media_of_your_choice(insta_username):
+    user_id = get_user_id(insta_username)
+    if user_id == None:
+        print 'user does not exist'
+    request_url = (BASE_URL + 'users/%s/media/recent/?access_token=%s') % (user_id, APP_ACCESS_TOKEN)
+    user_media = requests.get(request_url).json()
+    if user_media['meta']['code'] == 200:
+        if len(user_media['data']):
+            # here we will ask for the post number which we want to get.
+            post_number = raw_input("enter no of post which you want : ")
+            # python takes input as string it must be converted to integer using int type.
+            post_number = int(post_number)
+            # list has zero based indexing do data entered must be subtracted from 1 so as to get actual data entered.
+            x = post_number - 1
+            image_name = user_media['data'][x]['id'] + '.jpeg'
+            image_url = user_media['data'][x]['images']['standard_resolution']['url']
+            urllib.urlretrieve(image_url, image_name)
+            print 'Your image has been downloaded!'
+        else:
+            print'user media does not exist'
+    else:
+        print 'status code error'
+
+
 # here we have defined the start bot function which will start or bot application
 def start_bot():
     # while loop in  python is used to repeatedly execute a set a target statements as listed below
@@ -294,7 +321,8 @@ def start_bot():
         print "h.get list of comments on post\n"
         print "i.get the recent media liked by the user.\n "
         print "j.Delete negative comment.\n "
-        print "k.Exit.\n "
+        print "k.get post of yor choice.\n"
+        print "l.Exit.\n "
         choice = raw_input("Enter you choice: ")
         if choice == "a":
             self_info()
@@ -326,6 +354,9 @@ def start_bot():
             insta_username = raw_input("Enter the username of the user: ")
             delete_negative_comment(insta_username)
         elif choice == 'k':
+            insta_username = raw_input("enter username of the user : ")
+            get_media_of_your_choice(insta_username)
+        elif choice == 'l':
             exit()
         else:
             cprint("wrong choice", 'green')
