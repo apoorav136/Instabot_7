@@ -370,36 +370,64 @@ def start_bot():
         # elif keyword is used while handling with cases having multiple choices
         elif choice == "b":
             insta_username = raw_input("Enter the username of the user: ")
-            get_user_info(insta_username)
+            if len(insta_username) > 0:
+                get_user_info(insta_username)
+            else:
+                cprint ('Add a valid name!','green')
         elif choice == "c":
             get_own_post()
             print get_own_post()
         elif choice == "d":
             insta_username = raw_input("Enter the username of the user: ")
-            get_user_post(insta_username)
+            if len(insta_username) > 0:
+                get_user_post(insta_username)
+            else:
+                cprint('Add a valid name!', 'green')
         elif choice == 'e':
             insta_username = raw_input("Enter the username of the user: ")
-            like_a_post(insta_username)
+            if len(insta_username) > 0:
+                like_a_post(insta_username)
+            else:
+                cprint('Add a valid name!', 'green')
         elif choice == 'f':
             insta_username = raw_input('enter username : ')
-            list_of_likes(insta_username)
+            if len(insta_username) > 0:
+                list_of_likes(insta_username)
+            else:
+                cprint('Add a valid name!', 'green')
         elif choice == 'g':
             insta_username = raw_input("Enter the username of the user: ")
-            comment_on_post(insta_username)
+            if len(insta_username) > 0:
+                comment_on_post(insta_username)
+            else:
+                cprint('Add a valid name!', 'green')
         elif choice == 'h':
             insta_username = raw_input('enter username : ')
-            list_of_comments(insta_username)
+            if len(insta_username) > 0:
+                list_of_comments(insta_username)
+            else:
+                cprint('Add a valid name!', 'green')
         elif choice == 'i':
             recent_media_liked()
         elif choice == 'j':
             insta_username = raw_input("Enter the username of the user: ")
-            delete_negative_comment(insta_username)
+            if len(insta_username) > 0:
+                delete_negative_comment(insta_username)
+            else:
+                cprint('Add a valid name!', 'green')
         elif choice == 'k':
             insta_username = raw_input("enter username of the user : ")
-            get_media_of_your_choice(insta_username)
+            if len(insta_username) > 0:
+                get_media_of_your_choice(insta_username)
+            else:
+                cprint('Add a valid name!', 'green')
         elif choice =='l':
             insta_username = raw_input("enter name : ")
-            analyse_hashtag(insta_username)
+            if len(insta_username)>0:
+                analyse_hashtag(insta_username)
+            else:
+                cprint('Add a valid name!', 'green')
+
         elif choice == 'm':
             exit()
         else:
