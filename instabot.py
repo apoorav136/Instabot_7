@@ -1,6 +1,12 @@
 # Request library allows to send HTTP request
 # urllib is used to fetch data across world wide web
+#pylab is used to draw graph
 import requests, urllib, pylab
+
+# matplotlib is used to draw graph and wordcloud is used to draw  word image
+import matplotlib.pyplot as plt
+from wordcloud import WordCloud
+
 
 #  access token owner : me
 #   sandbox users : kajalangural , g_garkoti , Shubham.is.here
@@ -339,6 +345,11 @@ def analyse_hashtag(insta_username):
     pylab.plot(x, hash_item.values(), 'g')
     #pylabshow is used to finally display the graph
     pylab.show()
+    # this code will create a wordcloud of hashtags stores in dictionary
+    wordcloud= WordCloud().generate_from_frequencies(hash_item)
+    plt.imshow(wordcloud, interpolation='bilinear')
+    plt.show()
+
 
 
 
