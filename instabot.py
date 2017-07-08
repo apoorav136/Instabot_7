@@ -1,12 +1,11 @@
 # Request library allows to send HTTP request
 # urllib is used to fetch data across world wide web
-#pylab is used to draw graph
+# pylab is used to draw graph
 import requests, urllib, pylab
 
 # matplotlib is used to draw graph and wordcloud is used to draw  word image
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
-
 
 #  access token owner : me
 #   sandbox users : kajalangural , g_garkoti , Shubham.is.here
@@ -299,10 +298,13 @@ def get_media_of_your_choice(insta_username):
             post_number = int(post_number)
             # list has zero based indexing do data entered must be subtracted from 1 so as to get actual data entered.
             x = post_number - 1
-            image_name = user_media['data'][x]['id'] + '.jpeg'
-            image_url = user_media['data'][x]['images']['standard_resolution']['url']
-            urllib.urlretrieve(image_url, image_name)
-            print 'Your image has been downloaded!'
+            if x < len(user_media['data']):
+                image_name = user_media['data'][x]['id'] + '.jpeg'
+                image_url = user_media['data'][x]['images']['standard_resolution']['url']
+                urllib.urlretrieve(image_url, image_name)
+                print 'Your image has been downloaded!'
+            else:
+                print "no existing post"
         else:
             print'user media does not exist'
     else:
@@ -343,15 +345,15 @@ def analyse_hashtag(insta_username):
     pylab.xticks(x, hash_item.keys())
     # 'g' adds color to the graph line
     pylab.plot(x, hash_item.values(), 'g')
-    #pylabshow is used to finally display the graph
+
+    # pylab.show is used to finally display the graph
     pylab.show()
     # this code will create a wordcloud of hashtags stores in dictionary
-    wordcloud= WordCloud().generate_from_frequencies(hash_item)
+    wordcloud = WordCloud(background_color='white', mode='RGB', width=2000, height=1000).generate_from_frequencies(
+        hash_item)
     plt.imshow(wordcloud, interpolation='bilinear')
+    plt.axis('off')
     plt.show()
-
-
-
 
 
 # here we have defined the start bot function which will start or bot application
@@ -384,7 +386,7 @@ def start_bot():
             if len(insta_username) > 0:
                 get_user_info(insta_username)
             else:
-                cprint ('Add a valid name!','green')
+                cprint('Add a valid name!', 'green')
         elif choice == "c":
             get_own_post()
             print get_own_post()
@@ -432,9 +434,9 @@ def start_bot():
                 get_media_of_your_choice(insta_username)
             else:
                 cprint('Add a valid name!', 'green')
-        elif choice =='l':
+        elif choice == 'l':
             insta_username = raw_input("enter name : ")
-            if len(insta_username)>0:
+            if len(insta_username) > 0:
                 analyse_hashtag(insta_username)
             else:
                 cprint('Add a valid name!', 'green')
