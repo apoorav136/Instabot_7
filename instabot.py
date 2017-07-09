@@ -217,16 +217,21 @@ def comment_on_post(insta_username):
 
     # here we are entering the comment we waant to postt by using RAW_INPUT
     comment_text = raw_input('enter your comment : ')
-    request_url = (BASE_URL + 'media/%s/comments') % (media_id)
-
-    # while adding a comment payload will consist of access token and text we want to enter
-    payload = {"access_token": APP_ACCESS_TOKEN, "text": comment_text}
-    print 'POST request url : %s' % (request_url)
-    make_comment = requests.post(request_url, payload).json()
-    if make_comment['meta']['code'] == 200:
-        print 'comment has been posted successfully!'
+    text_words=comment_text.split('')
+    if not any (words.islower()for words in text_words):
+        print 'sorry! all capital letters are not allowed try again'
+    elif len(text_words)>300:
+        print 'you crossed text limit..try again.'
     else:
-        print 'Your comment was unsuccessful. please Try again!'
+        request_url = (BASE_URL + 'media/%s/comments') % (media_id)
+        # while adding a comment payload will consist of access token and text we want to enter
+        payload = {"access_token": APP_ACCESS_TOKEN, "text": comment_text}
+        print 'POST request url : %s' % (request_url)
+        make_comment = requests.post(request_url, payload).json()
+        if make_comment['meta']['code'] == 200:
+            print 'comment has been posted successfully!'
+        else:
+            print 'Your comment was unsuccessful. please Try again!'
 
 
 # function declaration to get list of comments on a media
@@ -383,7 +388,7 @@ def start_bot():
         # elif keyword is used while handling with cases having multiple choices
         elif choice == "b":
             insta_username = raw_input("Enter the username of the user: ")
-            if len(insta_username) > 0:
+            if len(insta_username) > 0 and insta_username.isspace()==False:
                 get_user_info(insta_username)
             else:
                 cprint('Add a valid name!', 'green')
@@ -392,31 +397,31 @@ def start_bot():
             print get_own_post()
         elif choice == "d":
             insta_username = raw_input("Enter the username of the user: ")
-            if len(insta_username) > 0:
+            if len(insta_username) > 0 and insta_username.isspace()==False:
                 get_user_post(insta_username)
             else:
                 cprint('Add a valid name!', 'green')
         elif choice == 'e':
             insta_username = raw_input("Enter the username of the user: ")
-            if len(insta_username) > 0:
+            if len(insta_username) > 0 and insta_username.isspace()==False:
                 like_a_post(insta_username)
             else:
                 cprint('Add a valid name!', 'green')
         elif choice == 'f':
             insta_username = raw_input('enter username : ')
-            if len(insta_username) > 0:
+            if len(insta_username) > 0 and insta_username.isspace()==False:
                 list_of_likes(insta_username)
             else:
                 cprint('Add a valid name!', 'green')
         elif choice == 'g':
             insta_username = raw_input("Enter the username of the user: ")
-            if len(insta_username) > 0:
+            if len(insta_username) > 0 and insta_username.isspace()==False:
                 comment_on_post(insta_username)
             else:
                 cprint('Add a valid name!', 'green')
         elif choice == 'h':
             insta_username = raw_input('enter username : ')
-            if len(insta_username) > 0:
+            if len(insta_username) > 0 and insta_username.isspace()==False:
                 list_of_comments(insta_username)
             else:
                 cprint('Add a valid name!', 'green')
@@ -424,19 +429,19 @@ def start_bot():
             recent_media_liked()
         elif choice == 'j':
             insta_username = raw_input("Enter the username of the user: ")
-            if len(insta_username) > 0:
+            if len(insta_username) > 0 and insta_username.isspace()==False:
                 delete_negative_comment(insta_username)
             else:
                 cprint('Add a valid name!', 'green')
         elif choice == 'k':
             insta_username = raw_input("enter username of the user : ")
-            if len(insta_username) > 0:
+            if len(insta_username) > 0 and insta_username.isspace()==False:
                 get_media_of_your_choice(insta_username)
             else:
                 cprint('Add a valid name!', 'green')
         elif choice == 'l':
             insta_username = raw_input("enter name : ")
-            if len(insta_username) > 0:
+            if len(insta_username) > 0 and insta_username.isspace()==False:
                 analyse_hashtag(insta_username)
             else:
                 cprint('Add a valid name!', 'green')
